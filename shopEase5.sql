@@ -8,7 +8,7 @@ SELECT COUNT(*) FROM order_items;
 DELIMITER //
 
 CREATE TRIGGER update_inventory
-AFTER INSERT ON Order_Items
+AFTER INSERT ON order_items
 FOR EACH ROW
 BEGIN
     DECLARE current_stock INT;
@@ -16,7 +16,7 @@ BEGIN
 
     -- Retrieve the current stock for the product
     SELECT stock_count INTO current_stock
-    FROM Inventories
+    FROM order_items
     WHERE product_id = NEW.product_id;
 
     -- Check if there is enough stock
@@ -30,7 +30,7 @@ BEGIN
         SET MESSAGE_TEXT = error_message;
     ELSE
         -- Update the inventory to decrease the stock count
-        UPDATE Inventories
+        UPDATE order_items
         SET stock_count = stock_count - NEW.quantity
         WHERE product_id = NEW.product_id;
     END IF;
