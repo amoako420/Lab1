@@ -15,7 +15,7 @@ BEGIN
     DECLARE error_message VARCHAR(255);
 
     -- Retrieve the current stock for the product
-    SELECT stock_count INTO current_stock
+    SELECT quantity INTO current_stock
     FROM order_items
     WHERE product_id = NEW.product_id;
 
@@ -31,7 +31,7 @@ BEGIN
     ELSE
         -- Update the inventory to decrease the stock count
         UPDATE order_items
-        SET stock_count = stock_count - NEW.quantity
+        SET quantity = quantity - NEW.quantity
         WHERE product_id = NEW.product_id;
     END IF;
 END //
